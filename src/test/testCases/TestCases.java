@@ -24,13 +24,11 @@ public class TestCases {
     @Before
     public void testSetup() {
         selenium = new SeleniumArch();
-        System.out.println("Test Started");
     }
 
     @After
     public void testTeardown() {
         selenium.quit();
-        System.out.println("Test Ended");
     }
 
     @AfterClass

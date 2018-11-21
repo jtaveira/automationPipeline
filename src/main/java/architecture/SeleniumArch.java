@@ -38,6 +38,7 @@ public class SeleniumArch {
     }
 
     public void setWebDriverWait(Integer time) {
+
         wait = new WebDriverWait(driver, time);
     }
 
