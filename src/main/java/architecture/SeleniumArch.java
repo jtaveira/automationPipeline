@@ -8,6 +8,11 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import reporter.HtmlReporter;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  * Created by jose taveira gomes on 13/11/2018.
@@ -15,9 +20,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class SeleniumArch {
 
-    static { System.setProperty("webdriver.chrome.driver", "drivers\\chromedriver.exe"); }
-    WebDriver driver = new ChromeDriver();
-    WebDriverWait wait = new WebDriverWait(driver, 15);
+    WebDriver driver;
+    WebDriverWait wait;
+    BufferedWriter report;
+    HtmlReporter reporter = new HtmlReporter();
 
     public void setWebDriver(String browser){
 
@@ -37,6 +43,27 @@ public class SeleniumArch {
         }
     }
 
+    public void startReport() throws IOException{
+        reporter.startReport(report);
+    }
+
+    public void endReport() throws IOException{
+        reporter.endReport(report);
+    }
+
+    public void startTestReport() throws IOException{
+        reporter.startTestReport(report);
+    }
+
+    public void endTestReport() throws IOException{
+        reporter.endTestReport(report);
+    }
+
+    public void setReportFile(String path) throws IOException {
+
+        this.report = new BufferedWriter(new FileWriter("reports/" + path));
+    }
+
     public void setWebDriverWait(Integer time) {
 
         wait = new WebDriverWait(driver, time);
@@ -49,49 +76,109 @@ public class SeleniumArch {
             }
         };
         wait.until(pageLoadCondition);
-        System.out.println("Step: Waited for Javascript to load");
     }
 
-    public void clickElement(String locator) {
-        wait.until(ExpectedConditions.elementToBeClickable(new By.ByXPath(locator)));
-        driver.findElement(new By.ByXPath(locator)).click();
-        System.out.println("Step: Clicked Element");
+    public void clickElement(String locator) throws IOException {
+
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(new By.ByXPath(locator)));
+            reporter.writeToFile(report, "<div class=\"step\">PASSED - Click Element<div class=\"action\">PASSED - Wait until locator is clickable.</div>");
+            reporter.writeToFile(report, "<div class=\"locator\">LOCATOR: " + locator + "</div>");
+        }
+        catch(Throwable exc) {
+            reporter.writeToFile(report, "<div class=\"step\">FAILED - Click Element<div class=\"action\">FAILED - Wait until locator is clickable.</div>");
+            reporter.writeToFile(report, "<div class=\"locator\">LOCATOR: " + locator + "</div>");
+            throw exc;
+        }
+
+        try {
+            driver.findElement(new By.ByXPath(locator)).click();
+            reporter.writeToFile(report, "<div class=\"action\">PASSED - Click element with locator.</div>");
+            reporter.writeToFile(report, "<div class=\"locator\">LOCATOR: " + locator + "</div></div>");
+        }
+        catch(Throwable exc) {
+            reporter.writeToFile(report, "<div class=\"action\">FAILED - Click element with locator.</div>");
+            reporter.writeToFile(report, "<div class=\"locator\">LOCATOR: " + locator + "</div></div>");
+            throw exc;
+        }
     }
 
-    public void submitElement(String locator) {
-        wait.until(ExpectedConditions.elementToBeClickable(new By.ByXPath(locator)));
-        driver.findElement(new By.ByXPath(locator)).submit();
-        System.out.println("Step: Submitted Element");
+    public void submitElement(String locator) throws IOException{
+
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(new By.ByXPath(locator)));
+            reporter.writeToFile(report, "<div class=\"step\">PASSED - Submit Element<div class=\"action\">PASSED - Wait until locator is clickable.</div>");
+            reporter.writeToFile(report, "<div class=\"locator\">LOCATOR: " + locator + "</div>");
+        }
+        catch(Throwable exc) {
+            reporter.writeToFile(report, "<div class=\"step\">FAILED - Submit Element<div class=\"action\">FAILED - Wait until locator is clickable.</div>");
+            reporter.writeToFile(report, "<div class=\"locator\">LOCATOR: " + locator + "</div>");
+            throw exc;
+        }
+
+        try {
+            driver.findElement(new By.ByXPath(locator)).submit();
+            reporter.writeToFile(report, "<div class=\"action\">PASSED - Submit.</div>");
+            reporter.writeToFile(report, "<div class=\"locator\">LOCATOR: " + locator + "</div></div>");
+        }
+        catch(Throwable exc) {
+            reporter.writeToFile(report, "<div class=\"action\">FAILED - Submit.</div>");
+            reporter.writeToFile(report, "<div class=\"locator\">LOCATOR: " + locator + "</div></div>");
+            throw exc;
+        }
     }
 
-    public void typeInElement(String locator, String message) {
-        wait.until(ExpectedConditions.elementToBeClickable(new By.ByXPath(locator)));
-        driver.findElement(new By.ByXPath(locator)).sendKeys(message);
-        System.out.println("Step: Typed '" + message + "' in Element");
+    public void typeInElement(String locator, String message) throws IOException{
+
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(new By.ByXPath(locator)));
+            reporter.writeToFile(report, "<div class=\"step\">PASSED - Type in Element<div class=\"action\">PASSED - Wait until locator is clickable.</div>");
+            reporter.writeToFile(report, "<div class=\"locator\">LOCATOR: " + locator + "</div>");
+        }
+        catch(Throwable exc) {
+            reporter.writeToFile(report, "<div class=\"step\">FAILED - Type in Element<div class=\"action\">FAILED - Wait until locator is clickable.</div>");
+            reporter.writeToFile(report, "<div class=\"locator\">LOCATOR: " + locator + "</div>");
+            throw exc;
+        }
+
+        try {
+            driver.findElement(new By.ByXPath(locator)).sendKeys(message);
+            reporter.writeToFile(report, "<div class=\"action\">PASSED - Sent keys to element.</div>");
+            reporter.writeToFile(report, "<div class=\"locator\">LOCATOR: " + locator + "</div></div>");
+        }
+        catch(Throwable exc) {
+            reporter.writeToFile(report, "<div class=\"action\">FAILED - Sent keys to element.</div>");
+            reporter.writeToFile(report, "<div class=\"locator\">LOCATOR: " + locator + "</div></div>");
+            throw exc;
+        }
     }
 
-    public void waitElement(String locator) {
-        wait.until(ExpectedConditions.elementToBeClickable(new By.ByXPath(locator)));
-        System.out.println("Step: Waited for Element");
+    public void waitElement(String locator) throws IOException {
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(new By.ByXPath(locator)));
+            reporter.writeToFile(report, "<div class=\"step\">PASSED - Wait Element<div class=\"action\">PASSED - Wait until locator is clickable.</div>");
+            reporter.writeToFile(report, "<div class=\"locator\">LOCATOR: " + locator + "</div></div>");
+        }
+        catch(Throwable exc) {
+            reporter.writeToFile(report, "<div class=\"step\">FAILED - Wait Element<div class=\"action\">FAILED - Wait until locator is clickable.</div>");
+            reporter.writeToFile(report, "<div class=\"locator\">LOCATOR: " + locator + "</div></div>");
+            throw exc;
+        }
     }
 
     public void navigateTo(String url) {
         driver.get(url);
-        System.out.println("Step: Navigated to " + url);
     }
 
     public void quit() {
         driver.quit();
-        System.out.println("Step: Driver Quit");
     }
 
     public void close() {
         driver.close();
-        System.out.println("Step: Driver Close");
     }
 
     public void maximize() {
         driver.manage().window().maximize();
-        System.out.println("Step: Window Maximized");
     }
 }
