@@ -46,6 +46,7 @@ public class TestCases {
     @Test
     public void testLogin() throws IOException {
 
+        selenium.setTestTitle("Test Login 001");
         selenium.navigateTo(urls.login);
         selenium.typeInElement(login.usernameInput, "testprovider@inhealth.ae");
         selenium.typeInElement(login.passwordInput, "Test123!");
@@ -56,6 +57,7 @@ public class TestCases {
     @Test
     public void testLogin2() throws IOException {
 
+        selenium.setTestTitle("Test Login 002");
         selenium.navigateTo(urls.login);
         selenium.typeInElement(login.usernameInput, "testprovider@inhealth.ae");
         selenium.typeInElement(login.passwordInput, "Test123!");
@@ -66,6 +68,7 @@ public class TestCases {
     @Test
     public void failLogin() throws IOException {
 
+        selenium.setTestTitle("Test Fail Login 001");
         selenium.navigateTo(urls.login);
         selenium.typeInElement(login.usernameInput, "nhecas@inhealth.ae");
         selenium.typeInElement(login.passwordInput, "Test123!");

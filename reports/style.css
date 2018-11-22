@@ -1,0 +1,27 @@
+.test-case {
+	padding-left: 0px;
+}
+
+.step {
+	padding-left: 25px;
+}
+
+.action {
+	padding-left: 50px;
+}
+
+.exception {
+	padding-left: 75px;
+}
+
+.locator {
+	padding-left: 75px;
+}
+
+.PASSED {
+	background-color: green;
+}
+
+.FAILED {
+	background-color: red;
+}
