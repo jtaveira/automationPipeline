@@ -70,6 +70,6 @@ public class TestCases {
         selenium.typeInElement(login.usernameInput, "nhecas@inhealth.ae");
         selenium.typeInElement(login.passwordInput, "Test123!");
         selenium.submitElement(login.passwordInput);
-        selenium.waitElement(dash.eligibilityButton);
+        selenium.clickElement(dash.eligibilityButton);
     }
 }

@@ -69,15 +69,6 @@ public class SeleniumArch {
         wait = new WebDriverWait(driver, time);
     }
 
-    public void waitForLoad() {
-        ExpectedCondition<Boolean> pageLoadCondition = new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver driver) {
-                return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
-            }
-        };
-        wait.until(pageLoadCondition);
-    }
-
     public void clickElement(String locator) throws IOException {
 
         try {
