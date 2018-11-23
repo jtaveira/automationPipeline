@@ -1,6 +1,9 @@
 package architecture;
 
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -9,6 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import reporter.HtmlReporter;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -71,12 +75,27 @@ public class SeleniumArch {
         wait = new WebDriverWait(driver, time);
     }
 
+    public String captureScreenshot() {
+
+        File src=((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+        String timestamp = ""+ System.currentTimeMillis();
+
+        try {
+            FileUtils.copyFile(src, new File("reports/screenshots/" + timestamp + ".png"));
+        }
+        catch (IOException e){
+            System.out.println(e.getMessage());
+        }
+
+        return "screenshots/" + timestamp + ".png";
+    }
+
     public void clickElement(String locator) throws IOException {
 
         try {
             wait.until(ExpectedConditions.elementToBeClickable(new By.ByXPath(locator)));
 
-            reporter.openStep(report, "PASSED", "Click Element");
+            reporter.openStep(report, "", "Click Element");
 
                 reporter.openAction(report, "PASSED", "Wait until locator is clickable");
                     reporter.openLocator(report, locator);
@@ -89,6 +108,7 @@ public class SeleniumArch {
                 reporter.openAction(report, "FAILED", "Wait until locator is clickable");
                     reporter.openLocator(report, locator);
                     reporter.openException(report, exc);
+                    reporter.openScreenshot(report, captureScreenshot());
                 reporter.closeAction(report);
 
             reporter.closeStep(report);
@@ -109,6 +129,7 @@ public class SeleniumArch {
                 reporter.openAction(report, "FAILED", "Find element and click");
                     reporter.openLocator(report, locator);
                     reporter.openException(report, exc);
+                    reporter.openScreenshot(report, captureScreenshot());
                 reporter.closeAction(report);
 
             reporter.closeStep(report);
@@ -121,7 +142,7 @@ public class SeleniumArch {
         try {
             wait.until(ExpectedConditions.elementToBeClickable(new By.ByXPath(locator)));
 
-            reporter.openStep(report, "PASSED", "Submit Element");
+            reporter.openStep(report, "", "Submit Element");
 
                 reporter.openAction(report, "PASSED", "Wait until locator is clickable");
                     reporter.openLocator(report, locator);
@@ -134,6 +155,7 @@ public class SeleniumArch {
                 reporter.openAction(report, "FAILED", "Wait until locator is clickable");
                     reporter.openLocator(report, locator);
                     reporter.openException(report, exc);
+                    reporter.openScreenshot(report, captureScreenshot());
                 reporter.closeAction(report);
 
             reporter.closeStep(report);
@@ -154,6 +176,7 @@ public class SeleniumArch {
                 reporter.openAction(report, "FAILED", "Submit");
                     reporter.openLocator(report, locator);
                     reporter.openException(report, exc);
+                    reporter.openScreenshot(report, captureScreenshot());
                 reporter.closeAction(report);
 
             reporter.closeStep(report);
@@ -166,7 +189,7 @@ public class SeleniumArch {
         try {
             wait.until(ExpectedConditions.elementToBeClickable(new By.ByXPath(locator)));
 
-            reporter.openStep(report, "PASSED", "Type in Element");
+            reporter.openStep(report, "", "Type in Element");
 
                 reporter.openAction(report, "PASSED", "Wait until locator is clickable");
                     reporter.openLocator(report, locator);
@@ -179,6 +202,7 @@ public class SeleniumArch {
                 reporter.openAction(report, "FAILED", "Wait until locator is clickable");
                     reporter.openLocator(report, locator);
                     reporter.openException(report, exc);
+                    reporter.openScreenshot(report, captureScreenshot());
                 reporter.closeAction(report);
 
             reporter.closeStep(report);
@@ -188,7 +212,7 @@ public class SeleniumArch {
         try {
             driver.findElement(new By.ByXPath(locator)).sendKeys(message);
 
-                reporter.openAction(report, "PASSED", "Send Keys");
+                reporter.openAction(report, "PASSED", "Send Keys " + message);
                     reporter.openLocator(report, locator);
                 reporter.closeAction(report);
 
@@ -196,9 +220,10 @@ public class SeleniumArch {
         }
         catch(Throwable exc) {
 
-                reporter.openAction(report, "FAILED", "Send Keys");
+                reporter.openAction(report, "FAILED", "Send Keys " + message);
                     reporter.openLocator(report, locator);
                     reporter.openException(report, exc);
+                    reporter.openScreenshot(report, captureScreenshot());
                 reporter.closeAction(report);
 
             reporter.closeStep(report);
@@ -225,6 +250,7 @@ public class SeleniumArch {
                 reporter.openAction(report, "FAILED", "Wait until locator is clickable");
                     reporter.openLocator(report, locator);
                     reporter.openException(report, exc);
+                    reporter.openScreenshot(report, captureScreenshot());
                 reporter.closeAction(report);
 
             reporter.closeStep(report);

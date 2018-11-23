@@ -23,7 +23,7 @@ public class HtmlReporter {
     }
 
     public void startTestReport(BufferedWriter file) throws IOException {
-        file.write("<div class=\"test-case\">TEST CASE: " + "\n");
+        file.write("<div class=\"test-case\">TEST CASE: ");
     }
 
     public void setTestTitle(BufferedWriter file, String title) throws IOException {
@@ -52,6 +52,10 @@ public class HtmlReporter {
         exception.printStackTrace(new PrintWriter(sw));
         String exc = sw.toString();
         file.write("<div class=\"exception\">EXCEPTION: " + exc + "</div>" + "\n");
+    }
+
+    public void openScreenshot(BufferedWriter file, String image) throws IOException {
+        file.write("<div class=\"screenshot\"><a href=\"" + image + "\"><img src=\"" + image + "\"></a></div>" + "\n");
     }
 
     public void closeAction(BufferedWriter file) throws IOException {

@@ -10,18 +10,28 @@
 	padding-left: 50px;
 }
 
-.exception {
-	padding-left: 75px;
-}
-
 .locator {
 	padding-left: 75px;
 }
 
+.exception {
+	padding-left: 75px;
+}
+
+.screenshot {
+	padding-left: 75px;
+}
+
+img {
+	border-radius: 8px;
+	max-width:50%;
+  	max-height:50%;
+}
+
 .PASSED {
-	background-color: green;
+	background-color: #3cb371;
 }
 
 .FAILED {
-	background-color: red;
+	background-color: #ff6347;
 }

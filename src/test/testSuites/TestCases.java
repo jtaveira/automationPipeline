@@ -75,4 +75,15 @@ public class TestCases {
         selenium.submitElement(login.passwordInput);
         selenium.clickElement(dash.eligibilityButton);
     }
+
+    @Test
+    public void failLogin2() throws IOException {
+
+        selenium.setTestTitle("Test Fail Login 002");
+        selenium.navigateTo(urls.login);
+        selenium.typeInElement(login.usernameInput, "nhecas@inhealth.ae");
+        selenium.typeInElement(login.passwordInput, "Test123!");
+        selenium.submitElement(login.passwordInput);
+        selenium.clickElement(dash.eligibilityButton);
+    }
 }
