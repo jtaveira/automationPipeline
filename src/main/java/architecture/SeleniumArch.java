@@ -95,7 +95,7 @@ public class SeleniumArch {
         try {
             wait.until(ExpectedConditions.elementToBeClickable(new By.ByXPath(locator)));
 
-            reporter.openStep(report, "", "Click Element");
+            reporter.openStep(report, "PASSED", "Click Element");
 
                 reporter.openAction(report, "PASSED", "Wait until locator is clickable");
                     reporter.openLocator(report, locator);
@@ -142,7 +142,7 @@ public class SeleniumArch {
         try {
             wait.until(ExpectedConditions.elementToBeClickable(new By.ByXPath(locator)));
 
-            reporter.openStep(report, "", "Submit Element");
+            reporter.openStep(report, "PASSED", "Submit Element");
 
                 reporter.openAction(report, "PASSED", "Wait until locator is clickable");
                     reporter.openLocator(report, locator);
@@ -189,7 +189,7 @@ public class SeleniumArch {
         try {
             wait.until(ExpectedConditions.elementToBeClickable(new By.ByXPath(locator)));
 
-            reporter.openStep(report, "", "Type in Element");
+            reporter.openStep(report, "PASSED", "Type in Element");
 
                 reporter.openAction(report, "PASSED", "Wait until locator is clickable");
                     reporter.openLocator(report, locator);

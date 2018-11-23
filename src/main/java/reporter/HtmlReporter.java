@@ -23,7 +23,7 @@ public class HtmlReporter {
     }
 
     public void startTestReport(BufferedWriter file) throws IOException {
-        file.write("<div class=\"test-case\">TEST CASE: ");
+        file.write("<div class=\"test-case\"><span>TEST CASE:</span> ");
     }
 
     public void setTestTitle(BufferedWriter file, String title) throws IOException {
@@ -35,15 +35,15 @@ public class HtmlReporter {
     }
 
     public void openStep(BufferedWriter file, String status, String title) throws IOException {
-        file.write("<div class=\"step " + status + "\">STEP: " + title + "\n");
+        file.write("<div class=\"step " + status + "\"><span>STEP:</span> " + title + "\n");
     }
 
     public void openAction(BufferedWriter file, String status, String title) throws IOException {
-        file.write("<div class=\"action " + status + "\">ACTION: " + title + "\n");
+        file.write("<div class=\"action " + status + "\"><span>ACTION:</span> " + title + "\n");
     }
 
     public void openLocator(BufferedWriter file, String locator) throws IOException {
-        file.write("<div class=\"locator\">LOCATOR: " + locator + "</div>" + "\n");
+        file.write("<div class=\"locator\"><span>LOCATOR:</span> " + locator + "</div>" + "\n");
     }
 
     public void openException(BufferedWriter file, Throwable exception) throws IOException {
@@ -51,7 +51,7 @@ public class HtmlReporter {
         StringWriter sw = new StringWriter();
         exception.printStackTrace(new PrintWriter(sw));
         String exc = sw.toString();
-        file.write("<div class=\"exception\">EXCEPTION: " + exc + "</div>" + "\n");
+        file.write("<div class=\"exception\"><span>EXCEPTION:</span> " + exc + "</div>" + "\n");
     }
 
     public void openScreenshot(BufferedWriter file, String image) throws IOException {
