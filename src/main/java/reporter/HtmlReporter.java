@@ -11,13 +11,14 @@ public class HtmlReporter {
         file.write("<!DOCTYPE html>\n" +
                 "<html>\n" +
                 " <head>\n" +
-                "  <link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\">\n" +
+                "  <link rel=\"stylesheet\" type=\"text/css\" href=\"../template/style.css\">\n" +
                 " </head>\n" +
                 "<body>\n");
     }
 
     public void endReport(BufferedWriter file) throws IOException {
-        file.write("</body>\n" +
+        file.write("</body><" +
+                "script src=\"../template/myScript.js\"></script>\n" +
                 "</html>");
         file.close();
     }
