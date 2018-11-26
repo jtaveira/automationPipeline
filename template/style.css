@@ -99,6 +99,23 @@ img {
 span {
 	font-size: 18px;
 	font-weight: bold;
+	display: inline;
+}
+
+button {
+	font-size: 25px;
+	color: white;
+	height: 35px;
+	width: 35px;
+	border-radius: 50%;
+	background-color: #555555;
+	transition: all 0.5s;
+	border-width: 0px;
+	vertical-align: center;
+}
+
+button:hover {
+	cursor: pointer;
 }
 
 .test-case.PASSED {

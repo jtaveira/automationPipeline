@@ -24,7 +24,7 @@ public class HtmlReporter {
     }
 
     public void startTestReport(BufferedWriter file) throws IOException {
-        file.write("<div class=\"test-case PASSED\"><span>TEST CASE:</span> ");
+        file.write("<div class=\"test-case PASSED\"><button>+</button><span>TEST CASE:</span> ");
     }
 
     public void setTestTitle(BufferedWriter file, String title) throws IOException {
@@ -36,15 +36,15 @@ public class HtmlReporter {
     }
 
     public void openStep(BufferedWriter file, String status, String title) throws IOException {
-        file.write("<div class=\"step " + status + "\"><span>STEP:</span> " + title + "\n");
+        file.write("<div class=\"step " + status + "\" style=\"display: none;\"><button>+</button><span>STEP:</span> " + title + "\n");
     }
 
     public void openAction(BufferedWriter file, String status, String title) throws IOException {
-        file.write("<div class=\"action " + status + "\"><span>ACTION:</span> " + title + "\n");
+        file.write("<div class=\"action " + status + "\" style=\"display: none;\"><button>+</button><span>ACTION:</span> " + title + "\n");
     }
 
     public void openLocator(BufferedWriter file, String locator) throws IOException {
-        file.write("<div class=\"locator\"><span>LOCATOR:</span> " + locator + "</div>" + "\n");
+        file.write("<div class=\"locator\" style=\"display: none;\"><span>LOCATOR:</span> " + locator + "</div>" + "\n");
     }
 
     public void openException(BufferedWriter file, Throwable exception) throws IOException {
@@ -52,11 +52,11 @@ public class HtmlReporter {
         StringWriter sw = new StringWriter();
         exception.printStackTrace(new PrintWriter(sw));
         String exc = sw.toString();
-        file.write("<div class=\"exception\"><span>EXCEPTION:</span> " + exc + "</div>" + "\n");
+        file.write("<div class=\"exception\" style=\"display: none;\"><span>EXCEPTION:</span> " + exc + "</div>" + "\n");
     }
 
     public void openScreenshot(BufferedWriter file, String image) throws IOException {
-        file.write("<div class=\"screenshot\"><a href=\"" + image + "\"><img src=\"" + image + "\"></a></div>" + "\n");
+        file.write("<div class=\"screenshot\" style=\"display: none;\"><a href=\"" + image + "\"><img src=\"" + image + "\"></a></div>" + "\n");
     }
 
     public void closeAction(BufferedWriter file) throws IOException {

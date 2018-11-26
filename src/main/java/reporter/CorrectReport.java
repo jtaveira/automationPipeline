@@ -6,9 +6,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 
 public class CorrectReport {
@@ -37,9 +35,5 @@ public class CorrectReport {
         }
 
         FileUtils.writeStringToFile(file, doc.toString(), "UTF-8");
-
-        /*BufferedWriter writer = new BufferedWriter(new FileWriter(fileLocation));
-        writer.write(doc.toString());
-        writer.close();*/
     }
 }
