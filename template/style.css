@@ -22,7 +22,8 @@ body {
 	padding-right: 20px;
 	padding-bottom: 10px;
 	padding-top: 10px;
-	margin: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
 
 	border-radius: 8px;
 	background-color: #a8a8a8;
@@ -37,7 +38,8 @@ body {
 	padding-right: 20px;
 	padding-bottom: 10px;
 	padding-top: 10px;
-	margin: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
 
 	border-radius: 8px;
 	background-color: #bdbdbd;
@@ -52,7 +54,8 @@ body {
 	padding-right: 20px;
 	padding-bottom: 10px;
 	padding-top: 10px;
-	margin: 5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
 
 	border-radius: 8px;
 	background-color: rgba(255, 255, 255, 0.5);
@@ -67,7 +70,8 @@ body {
 	padding-right: 20px;
 	padding-bottom: 5px;
 	padding-top: 10px;
-	margin: 5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
 
 	border-radius: 8px;
 	background-color: rgba(255, 255, 255, 0.5);
@@ -81,7 +85,8 @@ body {
 	padding-bottom: 5px;
 	padding-right: 5px;
 	padding-top: 5px;
-	margin: 5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
 
 	border-radius: 8px;
 
@@ -108,7 +113,7 @@ button {
 	color: rgba(0, 0, 0, 1);
 	height: 30px;
 	width: 30px;
-	border-radius: 50%;
+	border-radius: 8px;
 	background-color: rgba(255, 255, 255, 0.2);
 	transition: all 0.5s;
 	border-width: 1px;
