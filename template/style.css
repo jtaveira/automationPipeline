@@ -46,7 +46,7 @@ body {
 	border-style: solid;
 	border-width: 1px;
 
-	font-size: 16px;
+	font-size: 18px;
 }
 
 .locator {
@@ -62,7 +62,7 @@ body {
 	border-style: solid;
 	border-width: 1px;
 
-	font-size: 14px;
+	font-size: 18px;
 }
 
 .exception {
@@ -78,7 +78,7 @@ body {
 	border-style: solid;
 	border-width: 1px;
 
-	font-size: 14px;
+	font-size: 18px;
 }
 
 .screenshot {
@@ -90,7 +90,7 @@ body {
 
 	border-radius: 8px;
 
-	font-size: 14px;
+	font-size: 18px;
 }
 
 img {
