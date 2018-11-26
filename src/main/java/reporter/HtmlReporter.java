@@ -24,7 +24,7 @@ public class HtmlReporter {
     }
 
     public void startTestReport(BufferedWriter file) throws IOException {
-        file.write("<div class=\"test-case\"><span>TEST CASE:</span> ");
+        file.write("<div class=\"test-case PASSED\"><span>TEST CASE:</span> ");
     }
 
     public void setTestTitle(BufferedWriter file, String title) throws IOException {

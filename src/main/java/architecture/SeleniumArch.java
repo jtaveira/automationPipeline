@@ -9,6 +9,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import reporter.CorrectReport;
 import reporter.HtmlReporter;
 
 import java.io.BufferedWriter;
@@ -25,6 +26,7 @@ public class SeleniumArch {
     WebDriver driver;
     WebDriverWait wait;
     BufferedWriter report;
+    String reportLocation;
     HtmlReporter reporter = new HtmlReporter();
 
     public void setWebDriver(String browser){
@@ -51,6 +53,8 @@ public class SeleniumArch {
 
     public void endReport() throws IOException{
         reporter.endReport(report);
+        CorrectReport correction = new CorrectReport();
+        correction.correctReport(reportLocation);
     }
 
     public void setTestTitle(String title) throws IOException{
@@ -66,12 +70,11 @@ public class SeleniumArch {
     }
 
     public void setReportFile(String path) throws IOException {
-
+        this.reportLocation = "reports/" + path;
         this.report = new BufferedWriter(new FileWriter("reports/" + path));
     }
 
     public void setWebDriverWait(Integer time) {
-
         wait = new WebDriverWait(driver, time);
     }
 
