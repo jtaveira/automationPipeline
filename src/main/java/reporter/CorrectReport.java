@@ -19,6 +19,7 @@ public class CorrectReport {
 
         fixColors(doc);
         propagateTimeStamp(doc);
+        makeOverview(doc);
 
         FileUtils.writeStringToFile(file, doc.toString(), "UTF-8");
     }
@@ -61,8 +62,6 @@ public class CorrectReport {
                 for (int i=0; i < timeArr.length; i++) {
 
                     timestamp += Double.parseDouble(timeArr[i]);
-                    System.out.println(timestamp);
-
                 }
             }
 
@@ -82,12 +81,33 @@ public class CorrectReport {
 
                 for (int i=0; i < timeArr.length; i++) {
 
-                    System.out.println(timestamp);
                     timestamp += Double.parseDouble(timeArr[i]);
                 }
             }
 
             testCase.select("span.timestamp").first().text(String.valueOf(df.format(timestamp/2)));
         }
+    }
+
+    public void makeOverview(Document doc) {
+        Elements testCases = doc.select("div.test-case");
+
+        Integer passed = 0;
+        Integer failed = 0;
+        Integer total = 0;
+
+        for(Element testcase: testCases){
+            total++;
+            if(testcase.hasClass("FAILED"))
+                failed++;
+            else
+                passed++;
+        }
+
+        String suiteTitle = doc.select("h2").first().text();
+        doc.select(".table-suite").first().text(suiteTitle);
+        doc.select(".table-passed").first().text(passed.toString());
+        doc.select(".table-failed").first().text(failed.toString());
+        doc.select(".table-total").first().text(total.toString());
     }
 }

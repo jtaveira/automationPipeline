@@ -2,6 +2,26 @@ body {
 	font-family: Sans-serif;
 }
 
+h2 {
+	margin: 15px;
+	font-size: 40px;
+}
+
+table, th, td {
+	text-align: center;
+	font-size: 24px;
+}
+
+table {
+	margin: 15px;
+}
+
+th, tr, td {
+	padding: 5px;
+	border-width: 1px;
+	border-style: solid;
+}
+
 .test-case {
 	padding-left: 20px;
 	padding-right: 20px;
@@ -94,7 +114,7 @@ body {
 }
 
 .timestamp {
-	padding-top: 5px;
+	padding-top: 8px;
 	float: right;
 	width: 80px;
 	max-width: 120px;

@@ -7,13 +7,23 @@ import java.io.StringWriter;
 
 public class HtmlReporter {
 
-    public void startReport(BufferedWriter file) throws IOException {
+    public void startReport(BufferedWriter file, String title) throws IOException {
         file.write("<!DOCTYPE html>\n" +
                 "<html>\n" +
                 " <head>\n" +
                 "  <link rel=\"stylesheet\" type=\"text/css\" href=\"../template/style.css\">\n" +
                 " </head>\n" +
-                "<body>\n");
+                "<body>\n" +
+                "<h2>" + title + "</h2>" +
+                "<table>" +
+                "<tr>" +
+                "<th>Test Suite</th>" +
+                "<th>Passed</th>" +
+                "<th>Failed</th>" +
+                "<th>Total</th>" +
+                "</tr>" +
+                "<tr><td class=\"table-suite\"></td><td class=\"table-passed\"></td><td class=\"table-failed\"></td><td class=\"table-total\"></td></tr>" +
+                "</table>");
     }
 
     public void endReport(BufferedWriter file) throws IOException {

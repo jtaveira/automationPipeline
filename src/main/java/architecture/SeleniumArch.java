@@ -49,8 +49,8 @@ public class SeleniumArch {
         }
     }
 
-    public void startReport() throws IOException{
-        reporter.startReport(report);
+    public void startReport(String suiteTitle) throws IOException{
+        reporter.startReport(report, suiteTitle);
     }
 
     public void endReport() throws IOException{
