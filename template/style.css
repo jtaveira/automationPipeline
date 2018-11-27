@@ -93,6 +93,18 @@ body {
 	font-size: 18px;
 }
 
+.timestamp {
+	padding-top: 5px;
+	float: right;
+	width: 80px;
+	max-width: 120px;
+	text-align: left;
+}
+
+.timestamp:after {
+	content: ' s';
+}
+
 img {
 	max-width:50%;
   	max-height:50%;

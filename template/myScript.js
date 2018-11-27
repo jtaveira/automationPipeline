@@ -5,8 +5,11 @@ for (i = 0; i < testCase.length; i++) {
         this.classList.toggle("active");
 
         var panel = this.parentNode.childNodes;
+        console.log(panel);
 
-        for (j = 5; j < panel.length; j=j+2) {
+        for (j = 7; j < panel.length; j=j+2) {
+
+            console.log(panel[j]);
 
             if (panel[j].style.display === "block") {
                 panel[j].style.display = "none";
@@ -24,8 +27,11 @@ for (i = 0; i < step.length; i++) {
         this.classList.toggle("active");
 
         var panel = this.parentNode.childNodes;
+        console.log(panel);
 
-        for (j = 5; j < panel.length; j=j+2) {
+        for (j = 7; j < panel.length; j=j+2) {
+
+            console.log(panel[j]);
 
             if (panel[j].style.display === "block") {
                 panel[j].style.display = "none";
@@ -43,8 +49,11 @@ for (i = 0; i < action.length; i++) {
         this.classList.toggle("active");
 
         var panel = this.parentNode.childNodes;
+        console.log(panel);
 
-        for (j = 5; j < panel.length; j=j+2) {
+        for (j = 7; j < panel.length; j=j+2) {
+
+            console.log(panel[j]);
 
             if (panel[j].style.display === "block") {
                 panel[j].style.display = "none";

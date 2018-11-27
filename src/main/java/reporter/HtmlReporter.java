@@ -27,6 +27,10 @@ public class HtmlReporter {
         file.write("<div class=\"test-case PASSED\"><button>+</button><span>TEST CASE:</span> ");
     }
 
+    public void writeToReport(BufferedWriter file, String msg) throws IOException {
+        file.write(msg);
+    }
+
     public void setTestTitle(BufferedWriter file, String title) throws IOException {
         file.write(title);
     }
@@ -36,11 +40,11 @@ public class HtmlReporter {
     }
 
     public void openStep(BufferedWriter file, String status, String title) throws IOException {
-        file.write("<div class=\"step " + status + "\" style=\"display: none;\"><button>+</button><span>STEP:</span> " + title + "\n");
+        file.write("<div class=\"step " + status + "\" style=\"display: none;\"><button>+</button><span>STEP:</span> " + title + "<span class=\"timestamp\"></span>" + "\n");
     }
 
-    public void openAction(BufferedWriter file, String status, String title) throws IOException {
-        file.write("<div class=\"action " + status + "\" style=\"display: none;\"><button>+</button><span>ACTION:</span> " + title + "\n");
+    public void openAction(BufferedWriter file, String status, String title, String timestamp) throws IOException {
+        file.write("<div class=\"action " + status + "\" style=\"display: none;\"><button>+</button><span>ACTION:</span> " + title + "<span class=\"timestamp\">" + timestamp + "</span>" + "\n");
     }
 
     public void openLocator(BufferedWriter file, String locator) throws IOException {
