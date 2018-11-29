@@ -20,8 +20,40 @@ public class CorrectReport {
         fixColors(doc);
         propagateTimeStamp(doc);
         makeOverview(doc);
+        openWrongTests(doc);
 
         FileUtils.writeStringToFile(file, doc.toString(), "UTF-8");
+    }
+
+    public void openWrongTests(Document doc) {
+        Elements failedElements = doc.select(".action.FAILED");
+
+        for(Element failedElement : failedElements){
+
+            for (Element failedChild : failedElement.children()){
+                if(failedChild.hasClass("locator") || failedChild.hasClass("exception") || failedChild.hasClass("screenshot")){
+                    failedChild.attr("style", "display: block;");
+                }
+            }
+
+            for (Element sibling : failedElement.parent().parent().children()){
+                if(sibling.hasClass("step")){
+                    sibling.attr("style", "display: block;");
+                }
+            }
+
+            failedElement.attr("style", "display: block;");
+            failedElement.child(0).addClass("active");
+            failedElement.child(0).text("-");
+
+            failedElement.parent().attr("style", "display: block;");
+            failedElement.parent().child(0).addClass("active");
+            failedElement.parent().child(0).text("-");
+
+            failedElement.parent().parent().attr("style", "display: block;");
+            failedElement.parent().parent().child(0).addClass("active");
+            failedElement.parent().parent().child(0).text("-");
+        }
     }
 
     public void fixColors(Document doc) {

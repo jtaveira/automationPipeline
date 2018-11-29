@@ -310,8 +310,39 @@ public class SeleniumArch {
         }
     }
 
-    public void navigateTo(String url) {
-        driver.get(url);
+    public void navigateTo(String url) throws IOException{
+
+        double start = System.currentTimeMillis();
+
+        try {
+            driver.get(url);
+
+            double end = System.currentTimeMillis();
+
+            reporter.openStep(report, "PASSED", "Navigate To");
+
+                reporter.openAction(report, "PASSED", "Driver get url", df.format((end - start) / 1000.0));
+                    reporter.openLocator(report, url);
+                reporter.closeAction(report);
+
+            reporter.closeStep(report);
+        }
+
+        catch(Throwable exc) {
+
+            double end = System.currentTimeMillis();
+
+            reporter.openStep(report, "FAILED", "Navigate To");
+
+                reporter.openAction(report, "FAILED", "Driver get url", df.format((end - start) / 1000.0));
+                    reporter.openLocator(report, url);
+                    reporter.openException(report, exc);
+                    reporter.openScreenshot(report, captureScreenshot());
+                reporter.closeAction(report);
+
+            reporter.closeStep(report);
+            throw exc;
+        }
     }
 
     public void quit() {

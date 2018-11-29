@@ -5,21 +5,56 @@ body {
 h2 {
 	margin: 15px;
 	font-size: 40px;
+	display: inline-block;
+}
+
+h3 {
+	margin: 15px;
+	font-size: 35px;
+	display: inline-block;
+	float: right;
 }
 
 table, th, td {
 	text-align: center;
-	font-size: 24px;
 }
 
 table {
 	margin: 15px;
 }
 
+th {
+	font-size: 24px;
+}
+
+td {
+	font-size: 20px;
+}
+
 th, tr, td {
 	padding: 5px;
 	border-width: 1px;
 	border-style: solid;
+}
+
+.table-suite {
+	background-color: rgba(101, 157, 247, 1);
+	font-weight: bold;
+}
+
+.table-passed {
+	background-color: rgba(89, 190, 134, 1);
+	font-weight: bold;
+}
+
+.table-failed {
+	background-color: rgba(255, 122, 98, 1);
+	font-weight: bold;
+}
+
+.table-total {
+	background-color: rgba(242, 247, 113, 1);
+	font-weight: bold;
 }
 
 .test-case {

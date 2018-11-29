@@ -4,17 +4,22 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class HtmlReporter {
 
     public void startReport(BufferedWriter file, String title) throws IOException {
+
+        String timeStamp = new SimpleDateFormat("d MMMMM yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
+
         file.write("<!DOCTYPE html>\n" +
                 "<html>\n" +
                 " <head>\n" +
                 "  <link rel=\"stylesheet\" type=\"text/css\" href=\"../template/style.css\">\n" +
                 " </head>\n" +
                 "<body>\n" +
-                "<h2>" + title + "</h2>" +
+                "<h2 class=\"header-title\">" + title + "</h2>" + "<h3 class=\"header-timestamp\">" + timeStamp + "</h3>" +
                 "<table>" +
                 "<tr>" +
                 "<th>Test Suite</th>" +

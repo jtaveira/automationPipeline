@@ -22,7 +22,7 @@ public class TestCases {
     public static void suiteSetup() throws IOException {
         selenium = new SeleniumArch();
         selenium.setReportFile("testReport.html");
-        selenium.startReport("TestCases");
+        selenium.startReport("Suite #1");
     }
 
     @Before
