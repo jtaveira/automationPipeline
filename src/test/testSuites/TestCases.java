@@ -48,8 +48,8 @@ public class TestCases {
 
         selenium.setTestTitle("Test Login 001");
         selenium.navigateTo(urls.login);
-        selenium.typeInElement(login.usernameInput, "testprovider@inhealth.ae");
-        selenium.typeInElement(login.passwordInput, "Test123!");
+        selenium.typeInElement(login.usernameInput, "user");
+        selenium.typeInElement(login.passwordInput, "pass");
         selenium.submitElement(login.passwordInput);
         selenium.waitElement(dash.eligibilityButton);
     }
@@ -59,8 +59,8 @@ public class TestCases {
 
         selenium.setTestTitle("Test Login 002");
         selenium.navigateTo(urls.login);
-        selenium.typeInElement(login.usernameInput, "testprovider@inhealth.ae");
-        selenium.typeInElement(login.passwordInput, "Test123!");
+        selenium.typeInElement(login.usernameInput, "user");
+        selenium.typeInElement(login.passwordInput, "pass");
         selenium.submitElement(login.passwordInput);
         selenium.waitElement(dash.eligibilityButton);
     }
@@ -70,8 +70,8 @@ public class TestCases {
 
         selenium.setTestTitle("Test Fail Login 001");
         selenium.navigateTo(urls.login);
-        selenium.typeInElement(login.usernameInput, "nhecas@inhealth.ae");
-        selenium.typeInElement(login.passwordInput, "Test123!");
+        selenium.typeInElement(login.usernameInput, "user");
+        selenium.typeInElement(login.passwordInput, "pass");
         selenium.submitElement(login.passwordInput);
         selenium.clickElement(dash.eligibilityButton);
     }
