@@ -16,5 +16,4 @@ log/
 target/
 
 # Project
-reports/*
-reports/screenshots/*
+reports/

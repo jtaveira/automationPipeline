@@ -73,6 +73,7 @@ public class SeleniumArch {
     }
 
     public void setReportFile(String path) throws IOException {
+        new File("reports").mkdir();
         this.reportLocation = "reports/" + path;
         this.report = new BufferedWriter(new FileWriter("reports/" + path));
     }
