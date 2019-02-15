@@ -5,6 +5,9 @@ import locators.*;
 import org.junit.*;
 
 import java.io.IOException;
+import java.util.List;
+
+import static junit.framework.TestCase.assertTrue;
 
 /**
  * Created by jose taveira gomes on 19/11/2018.
@@ -13,16 +16,15 @@ import java.io.IOException;
 public class TestCases {
 
     static SeleniumArch selenium;
-    PageUrl urls = new PageUrl();
-    Header header = new Header();
-    LoginPage login = new LoginPage();
-    DashboardPage dash = new DashboardPage();
+    TalkDeskUrls urls = new TalkDeskUrls();
+    TalkDeskMainPage mainPage = new TalkDeskMainPage();
+    TalkDeskCustomerPage customerPage = new TalkDeskCustomerPage();
 
     @BeforeClass
     public static void suiteSetup() throws IOException {
         selenium = new SeleniumArch();
-        selenium.setReportFile("testReport.html");
-        selenium.startReport("Suite #1");
+        selenium.setReportFile("customersReport.html");
+        selenium.startReport("User Story: Customers");
     }
 
     @Before
@@ -44,35 +46,19 @@ public class TestCases {
     }
 
     @Test
-    public void testLogin() throws IOException {
-
-        selenium.setTestTitle("Test Login 001");
-        selenium.navigateTo(urls.login);
-        selenium.typeInElement(login.usernameInput, "user");
-        selenium.typeInElement(login.passwordInput, "pass");
-        selenium.submitElement(login.passwordInput);
-        selenium.waitElement(dash.eligibilityButton);
+    public void logosAreDisplayed() throws IOException {
+        selenium.setTestTitle("Logos are displayed");
+        selenium.navigateTo(urls.mainPage);
+        List<String> mainElements = selenium.countElements(mainPage.logoIdentifier, "data-alt");
+        selenium.navigateTo(urls.customers);
+        List<String> customerElements = selenium.countElements(customerPage.logoIdentifier, "data-alt");
+        assertTrue(selenium.listContains(customerElements, mainElements));
     }
 
     @Test
-    public void testLogin2() throws IOException {
-
-        selenium.setTestTitle("Test Login 002");
-        selenium.navigateTo(urls.login);
-        selenium.typeInElement(login.usernameInput, "user");
-        selenium.typeInElement(login.passwordInput, "pass");
-        selenium.submitElement(login.passwordInput);
-        selenium.waitElement(dash.eligibilityButton);
-    }
-
-    @Test
-    public void failLogin() throws IOException {
-
-        selenium.setTestTitle("Test Fail Login 001");
-        selenium.navigateTo(urls.login);
-        selenium.typeInElement(login.usernameInput, "user");
-        selenium.typeInElement(login.passwordInput, "pass");
-        selenium.submitElement(login.passwordInput);
-        selenium.clickElement(dash.eligibilityButton);
+    public void countLogosFromList() throws IOException {
+        selenium.setTestTitle("Count logos from list");
+        selenium.navigateTo(urls.customers);
+        selenium.countElements(customerPage.logoIdentifier, "data-alt");
     }
 }

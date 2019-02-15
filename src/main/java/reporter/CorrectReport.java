@@ -12,6 +12,14 @@ import java.text.DecimalFormat;
 
 public class CorrectReport {
 
+    String failed = "FAILED";
+    String passed = "PASSED";
+    String style = "style";
+    String displayBlock = "display: block;";
+    String active = "active";
+    String divStep = "div.step";
+    String spanTimestamp = "span.timestamp";
+
     public void correctReport (String fileLocation) throws IOException {
 
         File file = new File(fileLocation);
@@ -32,26 +40,26 @@ public class CorrectReport {
 
             for (Element failedChild : failedElement.children()){
                 if(failedChild.hasClass("locator") || failedChild.hasClass("exception") || failedChild.hasClass("screenshot")){
-                    failedChild.attr("style", "display: block;");
+                    failedChild.attr(style, displayBlock);
                 }
             }
 
             for (Element sibling : failedElement.parent().parent().children()){
                 if(sibling.hasClass("step")){
-                    sibling.attr("style", "display: block;");
+                    sibling.attr(style, displayBlock);
                 }
             }
 
-            failedElement.attr("style", "display: block;");
-            failedElement.child(0).addClass("active");
+            failedElement.attr(style, displayBlock);
+            failedElement.child(0).addClass(active);
             failedElement.child(0).text("-");
 
-            failedElement.parent().attr("style", "display: block;");
-            failedElement.parent().child(0).addClass("active");
+            failedElement.parent().attr(style, displayBlock);
+            failedElement.parent().child(0).addClass(active);
             failedElement.parent().child(0).text("-");
 
-            failedElement.parent().parent().attr("style", "display: block;");
-            failedElement.parent().parent().child(0).addClass("active");
+            failedElement.parent().parent().attr(style, displayBlock);
+            failedElement.parent().parent().child(0).addClass(active);
             failedElement.parent().parent().child(0).text("-");
         }
     }
@@ -60,18 +68,18 @@ public class CorrectReport {
         Elements actions = doc.select("div.action");
 
         for(Element action : actions){
-            if(action.hasClass("FAILED")){
-                action.parent().removeClass("PASSED");
-                action.parent().addClass("FAILED");
+            if(action.hasClass(failed)){
+                action.parent().removeClass(passed);
+                action.parent().addClass(failed);
             }
         }
 
-        Elements steps = doc.select("div.step");
+        Elements steps = doc.select(divStep);
 
         for(Element step : steps){
-            if(step.hasClass("FAILED")){
-                step.parent().removeClass("PASSED");
-                step.parent().addClass("FAILED");
+            if(step.hasClass(failed)){
+                step.parent().removeClass(passed);
+                step.parent().addClass(failed);
             }
         }
     }
@@ -80,7 +88,7 @@ public class CorrectReport {
 
         DecimalFormat df = new DecimalFormat("#.#####");
 
-        Elements steps = doc.select("div.step");
+        Elements steps = doc.select(divStep);
 
         for(Element step : steps){
 
@@ -89,7 +97,7 @@ public class CorrectReport {
 
             for(Element action: actions){
 
-                String timeArr[] = action.select("span.timestamp").text().split(" ");
+                String timeArr[] = action.select(spanTimestamp).text().split(" ");
 
                 for (int i=0; i < timeArr.length; i++) {
 
@@ -97,19 +105,19 @@ public class CorrectReport {
                 }
             }
 
-            step.select("span.timestamp").first().text(String.valueOf(df.format(timestamp)));
+            step.select(spanTimestamp).first().text(String.valueOf(df.format(timestamp)));
         }
 
         Elements testCases = doc.select("div.test-case");
 
         for(Element testCase : testCases){
 
-            steps  = testCase.select("div.step");
+            steps  = testCase.select(divStep);
             Double timestamp = 0.0;
 
             for(Element step: steps){
 
-                String timeArr[] = step.select("span.timestamp").text().split(" ");
+                String timeArr[] = step.select(spanTimestamp).text().split(" ");
 
                 for (int i=0; i < timeArr.length; i++) {
 
@@ -117,29 +125,29 @@ public class CorrectReport {
                 }
             }
 
-            testCase.select("span.timestamp").first().text(String.valueOf(df.format(timestamp/2)));
+            testCase.select(spanTimestamp).first().text(String.valueOf(df.format(timestamp/2)));
         }
     }
 
     public void makeOverview(Document doc) {
         Elements testCases = doc.select("div.test-case");
 
-        Integer passed = 0;
-        Integer failed = 0;
+        Integer passedCount = 0;
+        Integer failedCount = 0;
         Integer total = 0;
 
         for(Element testcase: testCases){
             total++;
-            if(testcase.hasClass("FAILED"))
-                failed++;
+            if(testcase.hasClass(failed))
+                failedCount++;
             else
-                passed++;
+                passedCount++;
         }
 
         String suiteTitle = doc.select("h2").first().text();
         doc.select(".table-suite").first().text(suiteTitle);
-        doc.select(".table-passed").first().text(passed.toString());
-        doc.select(".table-failed").first().text(failed.toString());
+        doc.select(".table-passed").first().text(passedCount.toString());
+        doc.select(".table-failed").first().text(failedCount.toString());
         doc.select(".table-total").first().text(total.toString());
     }
 }

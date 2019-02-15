@@ -1,10 +1,7 @@
 package architecture;
 
 import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -17,6 +14,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jose taveira gomes on 13/11/2018.
@@ -31,21 +30,33 @@ public class SeleniumArch {
     HtmlReporter reporter = new HtmlReporter();
     DecimalFormat df = new DecimalFormat("#.#####");
 
+    String passed = "PASSED";
+    String failed = "FAILED";
+    String waitClickable = "Wait until locator is clickable";
+    String clickElement = "Click Element";
+    String findElementAndClick = "Find element and click";
+    String countElements = "Count Elements";
+    String submitElement = "Submit Element";
+    String submit = "Submit";
+    String typeInElement = "Type in Element";
+    String sendKeys = "Send Keys ";
+    String waitElement = "Wait Element";
+    String navigateTo = "Navigate To";
+    String driverGetUrl = "Driver get url";
+    String listIsContained = "List is contained in";
+    String listAContainsB = "List A contains List B";
+    String misingElements = "Missing Elements: ";
+
     public void setWebDriver(String browser){
 
-        switch (browser.toLowerCase()){
-
-            case "chrome": System.setProperty("webdriver.chrome.driver", "drivers\\chromedriver.exe");
-                driver = new ChromeDriver();
-                break;
-
-            case "firefox": System.setProperty("webdriver.gecko.driver", "drivers\\geckodriver.exe");
-                driver = new FirefoxDriver();
-                break;
-
-            default:  System.setProperty("webdriver.chrome.driver", "drivers\\chromedriver.exe");
-                driver = new ChromeDriver();
-                break;
+        if(browser == "chrome"){
+            System.setProperty("webdriver.chrome.driver", "drivers\\chromedriver.exe");
+            driver = new ChromeDriver();
+        }
+        
+        else if(browser == "firefox"){
+            System.setProperty("webdriver.gecko.driver", "drivers\\geckodriver.exe");
+            driver = new FirefoxDriver();
         }
     }
 
@@ -73,12 +84,57 @@ public class SeleniumArch {
     }
 
     public void setReportFile(String path) throws IOException {
+        new File("reports").mkdir();
         this.reportLocation = "reports/" + path;
         this.report = new BufferedWriter(new FileWriter("reports/" + path));
     }
 
     public void setWebDriverWait(Integer time) {
         wait = new WebDriverWait(driver, time);
+    }
+
+    private void openStepFailed(String locator, double start, Exception exc, String clickElement, String waitClickable) throws IOException {
+        double end = System.currentTimeMillis();
+        String time = df.format((end - start) / 1000.0);
+
+        reporter.openStep(report, failed, clickElement);
+            reporter.openAction(report, failed, waitClickable, time);
+                reporter.openLocator(report, locator);
+                reporter.openException(report, exc);
+                reporter.openScreenshot(report, captureScreenshot());
+            reporter.closeAction(report);
+        reporter.closeStep(report);
+    }
+
+    private void openStepSuccess(String locator, double start, String countElements, String waitClickable) throws IOException {
+        double end = System.currentTimeMillis();
+        String time = df.format((end - start) / 1000.0);
+
+        reporter.openStep(report, passed, countElements);
+            reporter.openAction(report, passed, waitClickable, time);
+                reporter.openLocator(report, locator);
+            reporter.closeAction(report);
+    }
+
+    private void openActionFailed(String locator, double start, Exception exc, String findElementAndClick) throws IOException {
+        double end = System.currentTimeMillis();
+        String time = df.format((end - start) / 1000.0);
+
+            reporter.openAction(report, failed, findElementAndClick, time);
+                reporter.openLocator(report, locator);
+                reporter.openException(report, exc);
+                reporter.openScreenshot(report, captureScreenshot());
+            reporter.closeAction(report);
+        reporter.closeStep(report);
+    }
+
+    private void openActionSuccess(String locator, double start, String findElementAndClick) throws IOException {
+        double end = System.currentTimeMillis();
+        String time = df.format((end - start) / 1000.0);
+
+            reporter.openAction(report, passed, findElementAndClick, time);
+                reporter.openLocator(report, locator);
+            reporter.closeAction(report);
     }
 
     public String captureScreenshot() {
@@ -102,29 +158,12 @@ public class SeleniumArch {
 
         try {
             wait.until(ExpectedConditions.elementToBeClickable(new By.ByXPath(locator)));
-
-            double end = System.currentTimeMillis();
-
-            reporter.openStep(report, "PASSED", "Click Element");
-
-                reporter.openAction(report, "PASSED", "Wait until locator is clickable", df.format((end - start) / 1000.0));
-                    reporter.openLocator(report, locator);
-                reporter.closeAction(report);
+            openStepSuccess(locator, start, clickElement, waitClickable);
         }
 
-        catch(Throwable exc) {
+        catch(Exception exc) {
 
-            double end = System.currentTimeMillis();
-
-            reporter.openStep(report, "FAILED", "Click Element");
-
-                reporter.openAction(report, "FAILED", "Wait until locator is clickable",df.format((end - start) / 1000.0));
-                    reporter.openLocator(report, locator);
-                    reporter.openException(report, exc);
-                    reporter.openScreenshot(report, captureScreenshot());
-                reporter.closeAction(report);
-
-            reporter.closeStep(report);
+            openStepFailed(locator, start, exc, clickElement, waitClickable);
             throw exc;
         }
 
@@ -132,26 +171,51 @@ public class SeleniumArch {
 
         try {
             driver.findElement(new By.ByXPath(locator)).click();
-
-            double end = System.currentTimeMillis();
-
-                reporter.openAction(report, "PASSED", "Find element and click", df.format((end - start) / 1000.0));
-                    reporter.openLocator(report, locator);
-                reporter.closeAction(report);
-
+            openActionSuccess(locator, start, findElementAndClick);
             reporter.closeStep(report);
         }
-        catch(Throwable exc) {
+        catch(Exception exc) {
 
-            double end = System.currentTimeMillis();
+            openActionFailed(locator, start, exc, findElementAndClick);
+            throw exc;
+        }
+    }
 
-                reporter.openAction(report, "FAILED", "Find element and click", df.format((end - start) / 1000.0));
-                    reporter.openLocator(report, locator);
-                    reporter.openException(report, exc);
-                    reporter.openScreenshot(report, captureScreenshot());
-                reporter.closeAction(report);
+    public List<String> countElements(String locator, String attribute) throws IOException {
 
+        double start = System.currentTimeMillis();
+
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(new By.ByXPath(locator)));
+            openStepSuccess(locator, start, countElements, waitClickable);
+        }
+
+        catch(Exception exc) {
+
+            openStepFailed(locator, start, exc, countElements, waitClickable);
+            throw exc;
+        }
+
+        start = System.currentTimeMillis();
+
+        try {
+
+            List<WebElement> elements = driver.findElements(new By.ByXPath(locator));
+
+            openActionSuccess(locator, start, "Counted " + elements.size() + " elements");
             reporter.closeStep(report);
+
+            List<String> stringElements = new ArrayList<>();
+
+            for(WebElement element : elements){
+                stringElements.add(element.getAttribute(attribute));
+            }
+
+            return stringElements;
+        }
+        catch(Exception exc) {
+
+            openActionFailed(locator, start, exc, "Counted ?? elements");
             throw exc;
         }
     }
@@ -162,28 +226,11 @@ public class SeleniumArch {
 
         try {
             wait.until(ExpectedConditions.elementToBeClickable(new By.ByXPath(locator)));
-
-            double end = System.currentTimeMillis();
-
-            reporter.openStep(report, "PASSED", "Submit Element");
-
-                reporter.openAction(report, "PASSED", "Wait until locator is clickable", df.format((end - start) / 1000.0));
-                    reporter.openLocator(report, locator);
-                reporter.closeAction(report);
+            openStepSuccess(locator, start, submitElement, waitClickable);
         }
-        catch(Throwable exc) {
+        catch(Exception exc) {
 
-            double end = System.currentTimeMillis();
-
-            reporter.openStep(report, "FAILED", "Submit Element");
-
-                reporter.openAction(report, "FAILED", "Wait until locator is clickable", df.format((end - start) / 1000.0));
-                    reporter.openLocator(report, locator);
-                    reporter.openException(report, exc);
-                    reporter.openScreenshot(report, captureScreenshot());
-                reporter.closeAction(report);
-
-            reporter.closeStep(report);
+            openStepFailed(locator, start, exc, submitElement, waitClickable);
             throw exc;
         }
 
@@ -191,26 +238,12 @@ public class SeleniumArch {
 
         try {
             driver.findElement(new By.ByXPath(locator)).submit();
-
-            double end = System.currentTimeMillis();
-
-                reporter.openAction(report, "PASSED", "Submit", df.format((end - start) / 1000.0));
-                    reporter.openLocator(report, locator);
-                reporter.closeAction(report);
-
+            openActionSuccess(locator, start, submit);
             reporter.closeStep(report);
         }
-        catch(Throwable exc) {
+        catch(Exception exc) {
 
-            double end = System.currentTimeMillis();
-
-                reporter.openAction(report, "FAILED", "Submit", df.format((end - start) / 1000.0));
-                    reporter.openLocator(report, locator);
-                    reporter.openException(report, exc);
-                    reporter.openScreenshot(report, captureScreenshot());
-                reporter.closeAction(report);
-
-            reporter.closeStep(report);
+            openActionFailed(locator, start, exc, submit);
             throw exc;
         }
     }
@@ -221,29 +254,12 @@ public class SeleniumArch {
 
         try {
             wait.until(ExpectedConditions.elementToBeClickable(new By.ByXPath(locator)));
-
-            double end = System.currentTimeMillis();
-
-            reporter.openStep(report, "PASSED", "Type in Element");
-
-                reporter.openAction(report, "PASSED", "Wait until locator is clickable", df.format((end - start) / 1000.0));
-                    reporter.openLocator(report, locator);
-                reporter.closeAction(report);
+            openStepSuccess(locator, start, typeInElement, waitClickable);
         }
 
-        catch(Throwable exc) {
+        catch(Exception exc) {
 
-            double end = System.currentTimeMillis();
-
-            reporter.openStep(report, "FAILED", "Type in Element");
-
-                reporter.openAction(report, "FAILED", "Wait until locator is clickable", df.format((end - start) / 1000.0));
-                    reporter.openLocator(report, locator);
-                    reporter.openException(report, exc);
-                    reporter.openScreenshot(report, captureScreenshot());
-                reporter.closeAction(report);
-
-            reporter.closeStep(report);
+            openStepFailed(locator, start, exc, typeInElement, waitClickable);
             throw exc;
         }
 
@@ -251,26 +267,12 @@ public class SeleniumArch {
 
         try {
             driver.findElement(new By.ByXPath(locator)).sendKeys(message);
-
-            double end = System.currentTimeMillis();
-
-                reporter.openAction(report, "PASSED", "Send Keys " + message, df.format((end - start) / 1000.0));
-                    reporter.openLocator(report, locator);
-                reporter.closeAction(report);
-
+            openActionSuccess(locator, start, sendKeys + message);
             reporter.closeStep(report);
         }
-        catch(Throwable exc) {
+        catch(Exception exc) {
 
-            double end = System.currentTimeMillis();
-
-                reporter.openAction(report, "FAILED", "Send Keys " + message, df.format((end - start) / 1000.0));
-                    reporter.openLocator(report, locator);
-                    reporter.openException(report, exc);
-                    reporter.openScreenshot(report, captureScreenshot());
-                reporter.closeAction(report);
-
-            reporter.closeStep(report);
+            openActionFailed(locator, start, exc, sendKeys + message);
             throw exc;
         }
     }
@@ -281,31 +283,13 @@ public class SeleniumArch {
 
         try {
             wait.until(ExpectedConditions.elementToBeClickable(new By.ByXPath(locator)));
-
-            double end = System.currentTimeMillis();
-
-            reporter.openStep(report, "PASSED", "Wait Element");
-
-                reporter.openAction(report, "PASSED", "Wait until locator is clickable", df.format((end - start) / 1000.0));
-                    reporter.openLocator(report, locator);
-                reporter.closeAction(report);
-
+            openStepSuccess(locator, start, waitElement, waitClickable);
             reporter.closeStep(report);
         }
 
-        catch(Throwable exc) {
+        catch(Exception exc) {
 
-            double end = System.currentTimeMillis();
-
-            reporter.openStep(report, "FAILED", "Wait Element");
-
-                reporter.openAction(report, "FAILED", "Wait until locator is clickable", df.format((end - start) / 1000.0));
-                    reporter.openLocator(report, locator);
-                    reporter.openException(report, exc);
-                    reporter.openScreenshot(report, captureScreenshot());
-                reporter.closeAction(report);
-
-            reporter.closeStep(report);
+            openStepFailed(locator, start, exc, waitElement, waitClickable);
             throw exc;
         }
     }
@@ -316,32 +300,56 @@ public class SeleniumArch {
 
         try {
             driver.get(url);
-
-            double end = System.currentTimeMillis();
-
-            reporter.openStep(report, "PASSED", "Navigate To");
-
-                reporter.openAction(report, "PASSED", "Driver get url", df.format((end - start) / 1000.0));
-                    reporter.openLocator(report, url);
-                reporter.closeAction(report);
-
+            openStepSuccess(url, start, navigateTo, driverGetUrl);
             reporter.closeStep(report);
         }
 
-        catch(Throwable exc) {
+        catch(Exception exc) {
+
+            openStepFailed(url, start, exc, navigateTo, driverGetUrl);
+            throw exc;
+        }
+    }
+
+    public boolean listContains(List<String> listA, List<String> listB) throws IOException {
+
+        double start = System.currentTimeMillis();
+
+        boolean contains = listA.containsAll(listB);
+
+        if(contains) {
+            double end = System.currentTimeMillis();
+            String time = df.format((end - start) / 1000.0);
+
+            reporter.openStep(report, passed, listIsContained);
+                reporter.openAction(report, passed, listAContainsB, time);
+                reporter.closeAction(report);
+            reporter.closeStep(report);
+
+            return true;
+        }
+
+        else {
 
             double end = System.currentTimeMillis();
+            String time = df.format((end - start) / 1000.0);
 
-            reporter.openStep(report, "FAILED", "Navigate To");
+            List<String> missing = listB;
+            missing.removeAll(listA);
 
-                reporter.openAction(report, "FAILED", "Driver get url", df.format((end - start) / 1000.0));
-                    reporter.openLocator(report, url);
-                    reporter.openException(report, exc);
-                    reporter.openScreenshot(report, captureScreenshot());
+            String message = "";
+
+            for(String element : missing){
+                message += " " + element;
+            }
+
+            reporter.openStep(report, failed, listIsContained);
+                reporter.openAction(report, failed, listAContainsB, time);
+                    reporter.openLocator(report, misingElements + message);
                 reporter.closeAction(report);
-
             reporter.closeStep(report);
-            throw exc;
+
+            return false;
         }
     }
 

@@ -9,6 +9,8 @@ import java.util.Calendar;
 
 public class HtmlReporter {
 
+    String closeDiv = "</div>";
+
     public void startReport(BufferedWriter file, String title) throws IOException {
 
         String timeStamp = new SimpleDateFormat("d MMMMM yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
@@ -51,7 +53,7 @@ public class HtmlReporter {
     }
 
     public void endTestReport(BufferedWriter file) throws IOException {
-        file.write("</div>" + "\n");
+        file.write(closeDiv + "\n");
     }
 
     public void openStep(BufferedWriter file, String status, String title) throws IOException {
@@ -63,7 +65,7 @@ public class HtmlReporter {
     }
 
     public void openLocator(BufferedWriter file, String locator) throws IOException {
-        file.write("<div class=\"locator\" style=\"display: none;\"><span>LOCATOR:</span> " + locator + "</div>" + "\n");
+        file.write("<div class=\"locator\" style=\"display: none;\"><span>LOCATOR:</span> " + locator + closeDiv + "\n");
     }
 
     public void openException(BufferedWriter file, Throwable exception) throws IOException {
@@ -71,7 +73,7 @@ public class HtmlReporter {
         StringWriter sw = new StringWriter();
         exception.printStackTrace(new PrintWriter(sw));
         String exc = sw.toString();
-        file.write("<div class=\"exception\" style=\"display: none;\"><span>EXCEPTION:</span> " + exc + "</div>" + "\n");
+        file.write("<div class=\"exception\" style=\"display: none;\"><span>EXCEPTION:</span> " + exc + closeDiv + "\n");
     }
 
     public void openScreenshot(BufferedWriter file, String image) throws IOException {
@@ -79,11 +81,11 @@ public class HtmlReporter {
     }
 
     public void closeAction(BufferedWriter file) throws IOException {
-        file.write("</div>" + "\n");
+        file.write(closeDiv + "\n");
     }
 
     public void closeStep(BufferedWriter file) throws IOException {
-        file.write("</div>" + "\n");
+        file.write(closeDiv + "\n");
     }
 
 }
